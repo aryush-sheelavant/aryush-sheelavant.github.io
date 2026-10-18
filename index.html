@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aryush Sheelavant — Developer</title>
 <meta name="description" content="Aryush Sheelavant — 3rd Semester B.Tech CSE Student & Developer. Backend logic, DSA, and AI-assisted creative workflows.">
-
+ 
 <!-- Open Graph (LinkedIn, WhatsApp, Slack, Facebook) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://aryush-sheelavant.github.io/">
@@ -15,13 +15,13 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Aryush Sheelavant — 3rd Semester B.Tech CSE Student & Developer">
-
+ 
 <!-- Twitter / X Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Aryush Sheelavant — Developer">
 <meta name="twitter:description" content="3rd Semester B.Tech CSE Student & Developer, focused on backend logic, DSA, and AI-assisted creative workflows.">
 <meta name="twitter:image" content="https://aryush-sheelavant.github.io/og-image.png">
-
+ 
 <script>
   // Applied synchronously, before CSS paints, so a returning visitor
   // who turned motion down doesn't see a flash of animation first.
@@ -44,7 +44,7 @@
     }
   })();
 </script>
-
+ 
 <style>
   /* ============================================================
      1. RESET & BASE
@@ -56,51 +56,51 @@
     margin: 0;
     padding: 0;
   }
-
+ 
   html {
     scroll-behavior: smooth;
   }
-
+ 
   /* ============================================================
      2. DESIGN TOKENS — original dark, single-accent palette
   ============================================================ */
   :root {
     --color-bg: #0a0a0b;
-
+ 
     --color-surface: rgba(255, 255, 255, 0.035);
     --color-surface-hover: rgba(255, 255, 255, 0.065);
     --color-border: rgba(255, 255, 255, 0.09);
     --color-border-hover: rgba(255, 255, 255, 0.22);
-
+ 
     --color-text-primary: #f5f5f7;
     --color-text-secondary: #a1a1a6;
     --color-text-tertiary: #6e6e73;
-
+ 
     --color-accent: #2997ff;
-
+ 
     --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
       "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-
+ 
     --space-xs: 0.5rem;
     --space-sm: 1rem;
     --space-md: 1.5rem;
     --space-lg: 2.5rem;
     --space-xl: 4rem;
     --space-2xl: 7rem;
-
+ 
     --max-width: 980px;
     --radius-lg: 22px;
     --radius-md: 14px;
     --radius-sm: 8px;
-
+ 
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
     --transition-fast: 0.2s var(--ease);
     --transition-med: 0.35s var(--ease);
-
+ 
     --tilt-perspective: 1000px;
   }
-
+ 
   /* ============================================================
      3. GLOBAL ELEMENT STYLES
   ============================================================ */
@@ -119,21 +119,21 @@
     background-repeat: no-repeat;
     overflow-x: hidden;
   }
-
+ 
   a {
     color: inherit;
     text-decoration: none;
   }
-
+ 
   ul {
     list-style: none;
   }
-
+ 
   img {
     max-width: 100%;
     display: block;
   }
-
+ 
   /* ============================================================
      3b. AMBIENT PARALLAX BACKDROP
      Two faint dot-grid layers sit behind all content, at different
@@ -148,7 +148,7 @@
     pointer-events: none;
     overflow: hidden;
   }
-
+ 
   .bg-layer {
     position: absolute;
     inset: 0;
@@ -156,21 +156,21 @@
     transition: transform 0.6s var(--ease);
     will-change: transform;
   }
-
+ 
   .bg-layer--far {
     background-size: 46px 46px;
     opacity: 0.5;
   }
-
+ 
   .bg-layer--near {
     background-size: 64px 64px;
     opacity: 0.8;
   }
-
+ 
   html.reduce-motion .bg-layer {
     transition: none;
   }
-
+ 
   /* WebGL backdrop (Three.js): a fixed, non-interactive layer behind
      all content. Cards' backdrop-blur frosts it where they overlap. */
   .gl-canvas {
@@ -183,11 +183,11 @@
     opacity: 0;
     transition: opacity 1.2s var(--ease);
   }
-
+ 
   .gl-canvas.is-ready {
     opacity: 1;
   }
-
+ 
   /* ============================================================
      3c. SCROLL-TRIGGERED 3D REVEAL
      Cards and section headers tilt slightly up out of the page and
@@ -200,18 +200,18 @@
     transform-origin: bottom center;
     transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
   }
-
+ 
   .reveal.is-visible {
     opacity: 1;
     transform: translateY(0) rotateX(0deg);
   }
-
+ 
   html.reduce-motion .reveal {
     opacity: 1;
     transform: none;
     transition: none;
   }
-
+ 
   html.reduce-motion *,
   html.reduce-motion *::before,
   html.reduce-motion *::after {
@@ -219,14 +219,14 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-
+ 
   a:focus-visible,
   button:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
     border-radius: 4px;
   }
-
+ 
   /* ============================================================
      4. LAYOUT PRIMITIVES
   ============================================================ */
@@ -235,19 +235,19 @@
     margin-inline: auto;
     padding-inline: var(--space-md);
   }
-
+ 
   section {
     padding-block: var(--space-2xl);
     perspective: 1200px;
   }
-
+ 
   .section-heading {
     font-size: clamp(1.75rem, 3vw, 2.5rem);
     font-weight: 600;
     letter-spacing: -0.02em;
     margin-bottom: var(--space-lg);
   }
-
+ 
   /* ============================================================
      5. NAVIGATION
   ============================================================ */
@@ -260,32 +260,32 @@
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     border-bottom: 1px solid var(--color-border);
   }
-
+ 
   .nav .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 56px;
   }
-
+ 
   .nav-logo {
     font-weight: 600;
     font-size: 0.95rem;
     letter-spacing: -0.01em;
     color: var(--color-text-primary);
   }
-
+ 
   .nav-right {
     display: flex;
     align-items: center;
     gap: var(--space-lg);
   }
-
+ 
   .nav-links {
     display: flex;
     gap: var(--space-lg);
   }
-
+ 
   /* Manual reduce-motion toggle — an explicit, visible control on top
      of the OS-level prefers-reduced-motion support already built in.
      Unfilled moon = motion on; filled accent = motion reduced. */
@@ -303,18 +303,18 @@
     transition: border-color var(--transition-fast), color var(--transition-fast),
       background var(--transition-fast);
   }
-
+ 
   .motion-toggle:hover {
     border-color: var(--color-border-hover);
     color: var(--color-text-primary);
   }
-
+ 
   .motion-toggle.is-active {
     border-color: var(--color-accent);
     color: var(--color-accent);
     background: rgba(41, 151, 255, 0.12);
   }
-
+ 
   .nav-links a {
     position: relative;
     font-size: 0.85rem;
@@ -322,7 +322,7 @@
     transition: color var(--transition-fast);
     padding-bottom: 2px;
   }
-
+ 
   .nav-links a::after {
     content: "";
     position: absolute;
@@ -335,31 +335,31 @@
     transform-origin: left;
     transition: transform var(--transition-fast);
   }
-
+ 
   .nav-links a:hover {
     color: var(--color-text-primary);
   }
-
+ 
   .nav-links a:hover::after {
     transform: scaleX(1);
   }
-
+ 
   /* Scroll-spy: whichever section is currently in view gets its
      nav link lit up, same underline treatment as hover. */
   .nav-links a.is-active {
     color: var(--color-text-primary);
   }
-
+ 
   .nav-links a.is-active::after {
     transform: scaleX(1);
   }
-
+ 
   @media (max-width: 640px) {
     .nav-links {
       gap: var(--space-md);
     }
   }
-
+ 
   /* ============================================================
      6. HERO SECTION
      Name/tagline tilt gently toward the cursor. The bio sits next
@@ -370,13 +370,13 @@
     padding-block: var(--space-2xl) var(--space-xl);
     perspective: var(--tilt-perspective);
   }
-
+ 
   .hero-stage {
     transform-style: preserve-3d;
     transition: transform 0.4s var(--ease);
     will-change: transform;
   }
-
+ 
   .hero-name {
     font-size: clamp(2rem, 8vw, 5.5rem);
     font-weight: 700;
@@ -384,14 +384,14 @@
     line-height: 1.03;
     transform: translateZ(40px);
   }
-
+ 
   /* Letters scale up as the cursor nears them, like Mac Dock icons —
      the actual scale/lift per letter is set inline by JS on mousemove,
      this just makes the change smooth and defines how it grows. */
   .hero-name .letters {
     display: inline-flex;
   }
-
+ 
   .hero-name .letter {
     display: inline-block;
     transform-origin: bottom center;
@@ -402,7 +402,7 @@
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease-out;
     will-change: transform, filter;
   }
-
+ 
   .hero-tagline {
     margin-top: var(--space-sm);
     font-size: clamp(1.1rem, 2.4vw, 1.5rem);
@@ -411,7 +411,7 @@
     max-width: 40ch;
     transform: translateZ(24px);
   }
-
+ 
   /* Bio + code cube sit side by side, cube wraps below on mobile */
   .hero-body {
     margin-top: var(--space-lg);
@@ -419,7 +419,7 @@
     align-items: center;
     gap: var(--space-xl);
   }
-
+ 
   .hero-bio {
     flex: 1 1 420px;
     font-size: 1.05rem;
@@ -427,12 +427,12 @@
     color: var(--color-text-secondary);
     max-width: 62ch;
   }
-
+ 
   .hero-bio strong {
     color: var(--color-text-primary);
     font-weight: 600;
   }
-
+ 
   @media (max-width: 760px) {
     .hero-body {
       flex-direction: column;
@@ -440,7 +440,7 @@
       gap: var(--space-lg);
     }
   }
-
+ 
   /* --- 3D code cube --- */
   .code-cube-stage {
     flex: 0 0 auto;
@@ -449,7 +449,7 @@
     margin-inline: auto;
     perspective: 700px;
   }
-
+ 
   .code-cube {
     position: relative;
     width: 100%;
@@ -457,21 +457,21 @@
     transform-style: preserve-3d;
     animation: cube-spin 22s linear infinite;
   }
-
+ 
   .code-cube-stage:hover .code-cube {
     animation-play-state: paused;
   }
-
+ 
   @keyframes cube-spin {
     from { transform: rotateX(0deg) rotateY(0deg); }
     to   { transform: rotateX(360deg) rotateY(360deg); }
   }
-
+ 
   html.reduce-motion .code-cube {
     animation: none;
     transform: rotateX(-18deg) rotateY(28deg);
   }
-
+ 
   .cube-face {
     position: absolute;
     inset: 0;
@@ -488,14 +488,14 @@
     color: var(--color-accent);
     backdrop-filter: blur(6px);
   }
-
+ 
   .cube-face--front  { transform: translateZ(95px); }
   .cube-face--back   { transform: rotateY(180deg) translateZ(95px); }
   .cube-face--right  { transform: rotateY(90deg) translateZ(95px); }
   .cube-face--left   { transform: rotateY(-90deg) translateZ(95px); }
   .cube-face--top    { transform: rotateX(90deg) translateZ(95px); }
   .cube-face--bottom { transform: rotateX(-90deg) translateZ(95px); }
-
+ 
   /* ============================================================
      7. HERO CTA
   ============================================================ */
@@ -505,7 +505,7 @@
     gap: var(--space-sm);
     flex-wrap: wrap;
   }
-
+ 
   .btn {
     display: inline-flex;
     align-items: center;
@@ -518,18 +518,18 @@
       background var(--transition-fast), box-shadow 0.25s var(--ease);
     border: 1px solid transparent;
   }
-
+ 
   .btn-primary {
     background: var(--color-text-primary);
     color: #0a0a0b;
   }
-
+ 
   .btn-primary:hover {
     transform: translateY(-2px) scale(1.03);
     background: #ffffff;
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
   }
-
+ 
   /* Frosted-glass pill, same language as the nav bar and the 3D
      cards' backdrop-blur — pops forward on hover rather than just
      changing color. */
@@ -540,14 +540,14 @@
     backdrop-filter: saturate(180%) blur(14px);
     -webkit-backdrop-filter: saturate(180%) blur(14px);
   }
-
+ 
   .btn-secondary:hover {
     background: var(--color-surface-hover);
     border-color: var(--color-border-hover);
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
   }
-
+ 
   /* ============================================================
      8. SKILLS SECTION
      A ring of the actual skill list orbits in 3D beside the
@@ -562,11 +562,11 @@
     gap: var(--space-lg);
     margin-bottom: var(--space-lg);
   }
-
+ 
   .skills-heading-row .section-heading {
     margin-bottom: 0;
   }
-
+ 
   .orbit-stage {
     flex: 0 0 auto;
     width: 210px;
@@ -574,7 +574,7 @@
     margin-inline: auto;
     perspective: 900px;
   }
-
+ 
   .orbit {
     position: relative;
     width: 100%;
@@ -582,21 +582,21 @@
     transform-style: preserve-3d;
     animation: orbit-spin 28s linear infinite;
   }
-
+ 
   .orbit-stage:hover .orbit {
     animation-play-state: paused;
   }
-
+ 
   @keyframes orbit-spin {
     from { transform: rotateY(0deg); }
     to   { transform: rotateY(360deg); }
   }
-
+ 
   html.reduce-motion .orbit {
     animation: none;
     transform: rotateY(20deg);
   }
-
+ 
   .orbit-node {
     position: absolute;
     top: 50%;
@@ -614,27 +614,27 @@
     border-radius: 999px;
     backdrop-filter: blur(6px);
   }
-
+ 
   .orbit-node:nth-child(1) { transform: rotateY(0deg)   translateZ(115px); }
   .orbit-node:nth-child(2) { transform: rotateY(60deg)  translateZ(115px); }
   .orbit-node:nth-child(3) { transform: rotateY(120deg) translateZ(115px); }
   .orbit-node:nth-child(4) { transform: rotateY(180deg) translateZ(115px); }
   .orbit-node:nth-child(5) { transform: rotateY(240deg) translateZ(115px); }
   .orbit-node:nth-child(6) { transform: rotateY(300deg) translateZ(115px); }
-
+ 
   .skills-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-md);
     perspective: var(--tilt-perspective);
   }
-
+ 
   @media (max-width: 800px) {
     .skills-grid {
       grid-template-columns: 1fr;
     }
   }
-
+ 
   .skill-group {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -644,25 +644,25 @@
     transition: transform 0.25s var(--ease), border-color var(--transition-fast),
       background var(--transition-fast);
   }
-
+ 
   .skill-group:hover {
     border-color: var(--color-border-hover);
     background: var(--color-surface-hover);
   }
-
+ 
   .skill-group h3 {
     font-size: 1.05rem;
     font-weight: 600;
     margin-bottom: var(--space-md);
     color: var(--color-text-primary);
   }
-
+ 
   .tag-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
-
+ 
   .tag {
     font-size: 0.85rem;
     padding: 0.4rem 0.85rem;
@@ -671,11 +671,11 @@
     color: var(--color-text-secondary);
     transition: border-color var(--transition-fast), color var(--transition-fast);
   }
-
+ 
   .skill-group:hover .tag {
     color: var(--color-text-primary);
   }
-
+ 
   /* ============================================================
      9. PROJECTS SECTION
      Cards tilt in 3D toward the cursor with a soft sheen —
@@ -692,11 +692,11 @@
     gap: var(--space-lg);
     margin-bottom: var(--space-lg);
   }
-
+ 
   .projects-heading-row .section-heading {
     margin-bottom: 0;
   }
-
+ 
   .stack-stage {
     flex: 0 0 auto;
     width: 190px;
@@ -704,7 +704,7 @@
     margin-inline: auto;
     perspective: 800px;
   }
-
+ 
   .stack {
     position: relative;
     width: 100%;
@@ -712,16 +712,16 @@
     transform-style: preserve-3d;
     animation: stack-spin 20s linear infinite;
   }
-
+ 
   .stack-stage:hover .stack {
     animation-play-state: paused;
   }
-
+ 
   @keyframes stack-spin {
     from { transform: rotateX(58deg) rotateZ(0deg); }
     to   { transform: rotateX(58deg) rotateZ(360deg); }
   }
-
+ 
   /* Shared "chase light" keyframe — reused by the stack layers and
      the staircase steps. One element at a time ramps up to the
      accent color, holds briefly, then fades back, while siblings
@@ -734,16 +734,16 @@
     33%  { color: var(--color-text-secondary); border-color: var(--color-border); }
     100% { color: var(--color-text-secondary); border-color: var(--color-border); }
   }
-
+ 
   html.reduce-motion .stack-layer {
     animation: none;
   }
-
+ 
   html.reduce-motion .stack {
     animation: none;
     transform: rotateX(58deg) rotateZ(24deg);
   }
-
+ 
   .stack-layer {
     position: absolute;
     top: 50%;
@@ -764,28 +764,28 @@
        layers rather than sitting fixed on one — see cycle-glow. */
     animation: cycle-glow 6s ease-in-out infinite;
   }
-
+ 
   .stack-layer:nth-child(1) { transform: translateZ(-34px); animation-delay: 0s; }
   .stack-layer:nth-child(2) { transform: translateZ(0px); animation-delay: -2s; }
   .stack-layer:nth-child(3) { transform: translateZ(34px); animation-delay: -4s; }
-
+ 
   .stack-stage:hover .stack-layer {
     animation-play-state: paused;
   }
-
+ 
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-md);
     perspective: var(--tilt-perspective);
   }
-
+ 
   @media (max-width: 720px) {
     .projects-grid {
       grid-template-columns: 1fr;
     }
   }
-
+ 
   .project-card {
     position: relative;
     background: var(--color-surface);
@@ -800,12 +800,12 @@
       background var(--transition-fast);
     overflow: hidden;
   }
-
+ 
   .project-card:hover {
     border-color: var(--color-border-hover);
     background: var(--color-surface-hover);
   }
-
+ 
   .project-card::before {
     content: "";
     position: absolute;
@@ -819,43 +819,43 @@
     transition: opacity var(--transition-fast);
     pointer-events: none;
   }
-
+ 
   .project-card:hover::before {
     opacity: 1;
   }
-
+ 
   .project-tag {
     font-size: 0.78rem;
     color: var(--color-accent);
     font-weight: 600;
     transform: translateZ(20px);
   }
-
+ 
   .project-title {
     font-size: 1.3rem;
     font-weight: 600;
     letter-spacing: -0.01em;
     transform: translateZ(30px);
   }
-
+ 
   .project-title a {
     transition: color var(--transition-fast);
   }
-
+ 
   .project-title a:hover {
     color: var(--color-accent);
   }
-
+ 
   .project-title .link-arrow {
     display: inline-block;
     margin-left: 0.15rem;
     transition: transform var(--transition-fast);
   }
-
+ 
   .project-title a:hover .link-arrow {
     transform: translate(2px, -2px);
   }
-
+ 
   .project-desc {
     color: var(--color-text-secondary);
     font-size: 0.98rem;
@@ -863,7 +863,7 @@
     flex-grow: 1;
     transform: translateZ(12px);
   }
-
+ 
   /* ============================================================
      10. LOOKING FORWARD SECTION
      A small 3D staircase sits beside the heading: three steps
@@ -881,11 +881,11 @@
     gap: var(--space-lg);
     margin-bottom: var(--space-lg);
   }
-
+ 
   .goals-heading-row .section-heading {
     margin-bottom: 0;
   }
-
+ 
   .path-stage {
     flex: 0 0 auto;
     width: 230px;
@@ -893,7 +893,7 @@
     margin-inline: auto;
     perspective: 900px;
   }
-
+ 
   .path {
     position: relative;
     width: 100%;
@@ -902,7 +902,7 @@
     transition: transform 0.3s var(--ease);
     will-change: transform;
   }
-
+ 
   /* Layer 1 — fixed position in the staircase (unchanged per step). */
   .path-step {
     position: absolute;
@@ -911,11 +911,11 @@
     height: 42px;
     transform-style: preserve-3d;
   }
-
+ 
   .path-step:nth-child(1) { transform: translate3d(0px, 118px, -40px) rotateX(8deg); }
   .path-step:nth-child(2) { transform: translate3d(30px, 60px, 0px) rotateX(8deg); }
   .path-step:nth-child(3) { transform: translate3d(60px, 2px, 40px) rotateX(8deg); }
-
+ 
   /* Layer 2 — a continuous rotating wobble, staggered per step so
      they turn like a slow wave rather than all moving in lockstep.
      Bounded to ±16° (not a full 360° spin) so the text never flips
@@ -929,24 +929,24 @@
     animation: step-rotate 6s ease-in-out infinite;
     will-change: transform;
   }
-
+ 
   .path-step:nth-child(1) .path-step-float { animation-duration: 6s; animation-delay: 0s; }
   .path-step:nth-child(2) .path-step-float { animation-duration: 7s; animation-delay: 0.4s; }
   .path-step:nth-child(3) .path-step-float { animation-duration: 8s; animation-delay: 0.8s; }
-
+ 
   .path-step:hover .path-step-float {
     animation-play-state: paused;
   }
-
+ 
   @keyframes step-rotate {
     0%, 100% { transform: rotateY(-16deg); }
     50% { transform: rotateY(16deg); }
   }
-
+ 
   html.reduce-motion .path-step-float {
     animation: none;
   }
-
+ 
   /* Layer 3 — the visible glass card; tilts toward the cursor on its
      own, independent of the other two steps and the group tilt. */
   .path-step-inner {
@@ -974,25 +974,25 @@
        three steps instead of sitting fixed on the last one. */
     animation: cycle-glow 6s ease-in-out infinite;
   }
-
+ 
   .path-step:nth-child(1) .path-step-inner { animation-delay: 0s; }
   .path-step:nth-child(2) .path-step-inner { animation-delay: -2s; }
   .path-step:nth-child(3) .path-step-inner { animation-delay: -4s; }
-
+ 
   .path-step-inner:hover {
     background: var(--color-surface-hover);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
     animation-play-state: paused;
   }
-
+ 
   html.reduce-motion .path-step-inner {
     animation: none;
   }
-
+ 
   html.reduce-motion .path {
     transform: rotateX(-6deg) rotateY(14deg) !important;
   }
-
+ 
   .goal-card {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -1004,13 +1004,13 @@
     transition: transform 0.25s var(--ease), border-color var(--transition-fast),
       background var(--transition-fast), box-shadow 0.25s var(--ease);
   }
-
+ 
   .goal-card:hover {
     border-color: var(--color-border-hover);
     background: var(--color-surface-hover);
     box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
   }
-
+ 
   .goal-card p {
     font-size: clamp(1.1rem, 2vw, 1.35rem);
     line-height: 1.6;
@@ -1018,7 +1018,7 @@
     font-weight: 500;
     max-width: 65ch;
   }
-
+ 
   /* ============================================================
      11. CONTACT / FOOTER
   ============================================================ */
@@ -1026,20 +1026,20 @@
     text-align: center;
     padding-block: var(--space-xl) var(--space-lg);
   }
-
+ 
   .contact-heading {
     font-size: clamp(2rem, 5vw, 3.25rem);
     font-weight: 700;
     letter-spacing: -0.03em;
     margin-bottom: var(--space-sm);
   }
-
+ 
   .contact-sub {
     color: var(--color-text-secondary);
     font-size: 1.05rem;
     margin-bottom: var(--space-lg);
   }
-
+ 
   .contact-email {
     display: inline-block;
     font-size: clamp(1.1rem, 2.5vw, 1.6rem);
@@ -1054,18 +1054,18 @@
     transition: border-color var(--transition-fast), background var(--transition-fast),
       transform 0.2s var(--ease), box-shadow 0.25s var(--ease);
   }
-
+ 
   .contact-email:hover {
     border-color: var(--color-border-hover);
     background: var(--color-surface-hover);
     box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
   }
-
+ 
   footer {
     border-top: 1px solid var(--color-border);
     padding-block: var(--space-lg);
   }
-
+ 
   .footer-inner {
     display: flex;
     align-items: center;
@@ -1073,30 +1073,30 @@
     flex-wrap: wrap;
     gap: var(--space-sm);
   }
-
+ 
   .footer-links {
     display: flex;
     gap: var(--space-md);
     perspective: 400px;
   }
-
+ 
   .footer-links a {
     display: inline-block;
     color: var(--color-text-secondary);
     font-size: 0.9rem;
     transition: color var(--transition-fast), transform var(--transition-fast);
   }
-
+ 
   .footer-links a:hover {
     color: var(--color-text-primary);
     transform: translateY(-2px) rotateX(12deg);
   }
-
+ 
   .footer-copy {
     color: var(--color-text-tertiary);
     font-size: 0.85rem;
   }
-
+ 
   @media (max-width: 560px) {
     .footer-inner {
       flex-direction: column;
@@ -1108,15 +1108,15 @@
 <link rel="stylesheet" href="glossary.css">
 </head>
 <body>
-
+ 
   <div class="bg-parallax" aria-hidden="true">
     <div class="bg-layer bg-layer--far"></div>
     <div class="bg-layer bg-layer--near"></div>
   </div>
-
+ 
   <canvas class="gl-canvas" id="glCanvas" aria-hidden="true"></canvas>
-
-
+ 
+ 
   <!-- ================= NAVIGATION ================= -->
   <nav class="nav">
     <div class="container">
@@ -1144,7 +1144,7 @@
       </div>
     </div>
   </nav>
-
+ 
   <!-- ================= HERO ================= -->
   <header class="hero" id="top">
     <div class="container">
@@ -1152,7 +1152,7 @@
         <h1 class="hero-name" id="heroName" aria-label="Aryush Sheelavant"><span class="letters" aria-hidden="true">Aryush Sheelavant</span></h1>
         <p class="hero-tagline">3rd Semester B.Tech CSE Student &amp; Developer</p>
       </div>
-
+ 
       <div class="hero-body">
         <p class="hero-bio">
           I'm an 18-year-old Computer Science student at <strong>Reva University</strong>,
@@ -1162,7 +1162,7 @@
           I'm building a growing interest in using AI tools — like <strong>Veo 3</strong> for
           cinematic video generation — to streamline both technical and creative workflows.
         </p>
-
+ 
         <!-- Rotating 3D code cube, sits beside the bio -->
         <div class="code-cube-stage" aria-hidden="true">
           <div class="code-cube">
@@ -1175,14 +1175,14 @@
           </div>
         </div>
       </div>
-
+ 
       <div class="hero-cta-row">
         <a href="#work" class="btn btn-primary">See my work</a>
         <a href="#contact" class="btn btn-secondary">Get in touch</a>
       </div>
     </div>
   </header>
-
+ 
   <!-- ================= SKILLS ================= -->
   <section id="skills">
     <div class="container">
@@ -1200,7 +1200,7 @@
         </div>
       </div>
       <div class="skills-grid">
-
+ 
         <div class="skill-group reveal">
           <h3>Core Programming</h3>
           <div class="tag-list">
@@ -1209,7 +1209,7 @@
             <span class="tag">Data Structures &amp; Algorithms</span>
           </div>
         </div>
-
+ 
         <div class="skill-group reveal">
           <h3>Design &amp; Tools</h3>
           <div class="tag-list">
@@ -1218,7 +1218,7 @@
             <span class="tag">Cinematic Prompting</span>
           </div>
         </div>
-
+ 
         <div class="skill-group reveal">
           <h3>Workflow</h3>
           <div class="tag-list">
@@ -1228,11 +1228,11 @@
             <span class="tag">Collaborative Debugging</span>
           </div>
         </div>
-
+ 
       </div>
     </div>
   </section>
-
+ 
   <!-- ================= PROJECTS & LAB WORK ================= -->
   <section id="work">
     <div class="container">
@@ -1247,7 +1247,7 @@
         </div>
       </div>
       <div class="projects-grid">
-
+ 
         <article class="project-card reveal">
           <span class="project-tag">Repository</span>
           <h3 class="project-title">
@@ -1260,7 +1260,7 @@
             control environment.
           </p>
         </article>
-
+ 
         <article class="project-card reveal">
           <span class="project-tag">Collaboration</span>
           <h3 class="project-title">
@@ -1273,7 +1273,7 @@
             to write, review, and debug code in a team environment.
           </p>
         </article>
-
+ 
         <article class="project-card reveal">
           <span class="project-tag">Repository</span>
           <h3 class="project-title">
@@ -1286,7 +1286,7 @@
             document my ongoing progress in Data Structures and Algorithms.
           </p>
         </article>
-
+ 
         <article class="project-card reveal">
           <span class="project-tag">Independent Project</span>
           <h3 class="project-title">
@@ -1299,11 +1299,11 @@
             for a platform designed to connect students with local businesses for marketing roles.
           </p>
         </article>
-
+ 
       </div>
     </div>
   </section>
-
+ 
   <!-- ================= CAREER & LEARNING GOAL ================= -->
   <section id="goals">
     <div class="container">
@@ -1338,7 +1338,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ================= CONTACT ================= -->
   <section class="contact" id="contact">
     <div class="container">
@@ -1351,7 +1351,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ================= FOOTER ================= -->
   <footer>
     <div class="container footer-inner">
@@ -1362,7 +1362,7 @@
       </div>
     </div>
   </footer>
-
+ 
   <script>
     // ============================================================
     // 3D INTERACTIONS — cursor-triggered only, skipped for touch
@@ -1387,11 +1387,11 @@
         });
       }
     })();
-
+ 
     (function () {
       var isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
       if (isCoarsePointer) return;
-
+ 
       // The OS-level check above decides whether to attach these
       // listeners at all. This checks the *manual* toggle on every
       // single move, since that can be flipped on after the page has
@@ -1399,10 +1399,10 @@
       function motionAllowed() {
         return !document.documentElement.classList.contains("reduce-motion");
       }
-
+ 
       var heroStage = document.getElementById("heroStage");
       var hero = document.querySelector(".hero");
-
+ 
       if (hero && heroStage) {
         hero.addEventListener("mousemove", function (e) {
           if (!motionAllowed()) return;
@@ -1416,7 +1416,7 @@
           heroStage.style.transform = "rotateX(0deg) rotateY(0deg)";
         });
       }
-
+ 
       var cards = document.querySelectorAll(".project-card");
       cards.forEach(function (card) {
         card.addEventListener("mousemove", function (e) {
@@ -1433,7 +1433,7 @@
           card.style.transform = "rotateX(0deg) rotateY(0deg) translateY(0)";
         });
       });
-
+ 
       // --- Looking Forward staircase: tilts toward the cursor like the
       // project cards, on top of each step's own fixed rise/depth offset. ---
       var pathStage = document.getElementById("pathStage");
@@ -1451,7 +1451,7 @@
           pathInner.style.transform = "rotateX(0deg) rotateY(0deg)";
         });
       }
-
+ 
       // --- Reusable cursor-tilt, shared by skill cards and the
       // contact button so they get the same 3D feel as the project
       // cards without repeating the math for each one. ---
@@ -1469,21 +1469,21 @@
           el.style.transform = "rotateX(0deg) rotateY(0deg)" + (liftPx ? " translateY(0)" : "");
         });
       }
-
+ 
       document.querySelectorAll(".skill-group").forEach(function (group) {
         cursorTilt(group, 6, 3);
       });
-
+ 
       var contactEmailEl = document.querySelector(".contact-email");
       if (contactEmailEl) cursorTilt(contactEmailEl, 10, 2);
-
+ 
       document.querySelectorAll(".path-step-inner").forEach(function (step) {
         cursorTilt(step, 14, 2);
       });
-
+ 
       var goalCardEl = document.querySelector(".goal-card");
       if (goalCardEl) cursorTilt(goalCardEl, 5, 3);
-
+ 
       // --- Ambient background parallax: two faint dot-grid layers
       // drift opposite the cursor at different speeds for a subtle
       // sense of depth behind the content. ---
@@ -1498,7 +1498,7 @@
           bgNear.style.transform = "translate3d(" + (-px * 24) + "px, " + (-py * 24) + "px, 0)";
         });
       }
-
+ 
       // --- Hero name: Mac Dock-style magnify, enhanced. Letters scale
       // up as the cursor nears them using true 2D distance (not just
       // horizontal), so it starts responding slightly before the
@@ -1509,12 +1509,12 @@
       var letterEls = heroNameEl
         ? Array.prototype.slice.call(heroNameEl.querySelectorAll(".letter"))
         : [];
-
+ 
       if (heroStageEl && letterEls.length) {
         var maxScale = 0.75; // how much bigger the closest letter gets
         var sigmaX = 46; // px falloff radius, horizontal
         var sigmaY = 70; // taller falloff so it reacts while over the tagline too
-
+ 
         heroStageEl.addEventListener("mousemove", function (e) {
           if (!motionAllowed()) return;
           letterEls.forEach(function (letter) {
@@ -1536,7 +1536,7 @@
               "px rgba(41, 151, 255, " + glow.toFixed(2) + "))";
           });
         });
-
+ 
         heroStageEl.addEventListener("mouseleave", function () {
           letterEls.forEach(function (letter) {
             letter.style.transform = "translateY(0) scale(1)";
@@ -1545,7 +1545,7 @@
         });
       }
     })();
-
+ 
     // ============================================================
     // SCROLL-TRIGGERED REVEAL
     // Runs regardless of motion preference — the CSS itself (see
@@ -1556,14 +1556,14 @@
     (function () {
       var revealEls = document.querySelectorAll(".reveal");
       if (!revealEls.length) return;
-
+ 
       if (!("IntersectionObserver" in window)) {
         revealEls.forEach(function (el) {
           el.classList.add("is-visible");
         });
         return;
       }
-
+ 
       var observer = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
@@ -1575,12 +1575,12 @@
         },
         { threshold: 0.15 }
       );
-
+ 
       revealEls.forEach(function (el) {
         observer.observe(el);
       });
     })();
-
+ 
     // ============================================================
     // MANUAL REDUCE-MOTION TOGGLE
     // Works regardless of touch/pointer type or OS setting — this is
@@ -1590,9 +1590,9 @@
     (function () {
       var toggle = document.getElementById("motionToggle");
       if (!toggle) return;
-
+ 
       var root = document.documentElement;
-
+ 
       function resetMotionTransforms() {
         var selectors = [
           "#heroStage",
@@ -1617,7 +1617,7 @@
         if (bgFar) bgFar.style.transform = "";
         if (bgNear) bgNear.style.transform = "";
       }
-
+ 
       function applyState(isReduced) {
         root.classList.toggle("reduce-motion", isReduced);
         toggle.setAttribute("aria-pressed", isReduced ? "true" : "false");
@@ -1630,16 +1630,16 @@
         }
         if (isReduced) resetMotionTransforms();
       }
-
+ 
       // Sync the button's visual state with whatever the early
       // blocking head-script already applied before first paint.
       applyState(root.classList.contains("reduce-motion"));
-
+ 
       toggle.addEventListener("click", function () {
         applyState(!root.classList.contains("reduce-motion"));
       });
     })();
-
+ 
     // ============================================================
     // SCROLL-SPY NAV
     // Highlights whichever section is currently in view. Runs for
@@ -1651,14 +1651,14 @@
       );
       var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links a"));
       if (!sections.length || !navLinks.length || !("IntersectionObserver" in window)) return;
-
+ 
       function setActive(id) {
         navLinks.forEach(function (link) {
           var isMatch = link.getAttribute("href") === "#" + id;
           link.classList.toggle("is-active", isMatch);
         });
       }
-
+ 
       var observer = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
@@ -1669,13 +1669,13 @@
         },
         { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
       );
-
+ 
       sections.forEach(function (section) {
         observer.observe(section);
       });
     })();
   </script>
-
+ 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
     // ============================================================
@@ -1691,7 +1691,7 @@
     (function () {
       var canvas = document.getElementById("glCanvas");
       if (!canvas || !window.THREE) return;
-
+ 
       var root = document.documentElement;
       var renderer;
       try {
@@ -1699,23 +1699,23 @@
       } catch (err) {
         return;
       }
-
+ 
       var small = window.innerWidth < 700;
       var NODES = small ? 38 : 72;
       var PULSES = small ? 4 : 7;
       var RADIUS = 1.7;
       var EDGE_OPACITY = small ? 0.08 : 0.18;
       var NODE_OPACITY = small ? 0.5 : 0.85;
-
+ 
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setClearColor(0x000000, 0);
-
+ 
       var scene = new THREE.Scene();
       var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 50);
       camera.position.z = 5;
       var group = new THREE.Group();
       scene.add(group);
-
+ 
       // Soft round sprite so nodes render as glowing dots, not squares.
       var spriteCanvas = document.createElement("canvas");
       spriteCanvas.width = spriteCanvas.height = 64;
@@ -1727,7 +1727,7 @@
       sctx.fillStyle = grad;
       sctx.fillRect(0, 0, 64, 64);
       var sprite = new THREE.CanvasTexture(spriteCanvas);
-
+ 
       // Nodes: a fibonacci sphere with random depth, so it reads as a
       // volume rather than a hollow shell.
       var pts = [];
@@ -1738,7 +1738,7 @@
         var k = RADIUS * (0.55 + Math.random() * 0.45);
         pts.push(new THREE.Vector3(Math.cos(theta) * ring * k, y * k, Math.sin(theta) * ring * k));
       }
-
+ 
       // Edges: connect every node to its 3 nearest neighbours.
       var adj = pts.map(function () { return []; });
       var seen = {};
@@ -1758,18 +1758,18 @@
             edges.push(a, n.b);
           });
       });
-
+ 
       var lineGeo = new THREE.BufferGeometry();
       lineGeo.setAttribute("position", new THREE.Float32BufferAttribute(seg, 3));
       var lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 });
       group.add(new THREE.LineSegments(lineGeo, lineMat));
-
+ 
       var nodeMat = new THREE.PointsMaterial({
         size: 0.09, map: sprite, color: 0xffffff, transparent: true,
         opacity: 0, depthWrite: false, sizeAttenuation: true
       });
       group.add(new THREE.Points(new THREE.BufferGeometry().setFromPoints(pts), nodeMat));
-
+ 
       // Pulses: bright accent dots hopping node to node along edges.
       var pulses = [];
       for (var p = 0; p < PULSES; p++) {
@@ -1784,7 +1784,7 @@
         depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
       });
       group.add(new THREE.Points(pulseGeo, pulseMat));
-
+ 
       // --- Cursor glow: nodes and edges near the pointer light up blue.
       // Per-vertex colours run black -> accent under additive blending,
       // so "no influence" is simply invisible (no alpha channel needed).
@@ -1792,7 +1792,7 @@
       var infl = new Float32Array(NODES);
       var haloCol = new Float32Array(NODES * 3);
       var edgeCol = new Float32Array(edges.length * 3);
-
+ 
       var haloGeo = new THREE.BufferGeometry().setFromPoints(pts);
       haloGeo.setAttribute("color", new THREE.BufferAttribute(haloCol, 3).setUsage(THREE.DynamicDrawUsage));
       var haloMat = new THREE.PointsMaterial({
@@ -1800,7 +1800,7 @@
         depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
       });
       group.add(new THREE.Points(haloGeo, haloMat));
-
+ 
       var hiGeo = new THREE.BufferGeometry();
       hiGeo.setAttribute("position", lineGeo.getAttribute("position"));
       hiGeo.setAttribute("color", new THREE.BufferAttribute(edgeCol, 3).setUsage(THREE.DynamicDrawUsage));
@@ -1809,16 +1809,16 @@
         depthWrite: false, blending: THREE.AdditiveBlending
       });
       group.add(new THREE.LineSegments(hiGeo, hiMat));
-
+ 
       var tmp = new THREE.Vector3();
       var ndcMouse = { x: 9, y: 9 }; // off-screen until the pointer moves
-
+ 
       function setGlow(i, v) {
         haloCol[i * 3] = ACCENT.r * v;
         haloCol[i * 3 + 1] = ACCENT.g * v;
         haloCol[i * 3 + 2] = ACCENT.b * v;
       }
-
+ 
       function updateGlow(dt) {
         var R = 0.55; // glow radius, in screen-height units
         var k, v;
@@ -1839,7 +1839,7 @@
         haloGeo.attributes.color.needsUpdate = true;
         hiGeo.attributes.color.needsUpdate = true;
       }
-
+ 
       function clearGlow() {
         ndcMouse.x = ndcMouse.y = 9;
         infl.fill(0);
@@ -1848,7 +1848,7 @@
         haloGeo.attributes.color.needsUpdate = true;
         hiGeo.attributes.color.needsUpdate = true;
       }
-
+ 
       // --- Depth dust: faint particles at many depths. Scroll lifts them
       // at a different rate than the page, which reads as parallax.
       var DUST = small ? 150 : 340;
@@ -1866,7 +1866,7 @@
       });
       var dust = new THREE.Points(dustGeo, dustMat);
       scene.add(dust);
-
+ 
       // --- Floating wireframe solids on the page margins. Each drifts up
       // at its own rate as you scroll, so they enter and leave at
       // different times (wide screens only — see shapesOn).
@@ -1874,17 +1874,219 @@
       // side: -1 left / +1 right. x is set in resize() as a fraction of
       // the visible width, so they sit inside the margin at any size.
       var SHAPE_Z = -2;
-      function addShape(geo, color, opacity, side, y, rate, spinX, spinY) {
-        var mat = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0, depthWrite: false });
-        var mesh = new THREE.LineSegments(new THREE.WireframeGeometry(geo), mat);
-        mesh.position.set(0, y, SHAPE_Z);
-        scene.add(mesh);
-        shapes.push({ mesh: mesh, mat: mat, op: opacity, side: side, baseY: y, rate: rate, sx: spinX, sy: spinY });
+      // obj: any Object3D; mats: [{ m: material, op: its resting opacity }];
+      // step(dt): optional per-frame animation for the shape's own logic.
+      function addShape(obj, mats, side, y, rate, spinX, spinY, tilt, step) {
+        obj.position.set(0, y, SHAPE_Z);
+        obj.rotation.x = tilt;
+        scene.add(obj);
+        shapes.push({ mesh: obj, mats: mats, side: side, baseY: y, rate: rate, sx: spinX, sy: spinY, tilt: tilt, step: step });
       }
-      addShape(new THREE.IcosahedronGeometry(0.62, 1), 0xffffff, 0.18, -1, 1.0, 1.5, 0.15, 0.22);
-      addShape(new THREE.TorusKnotGeometry(0.42, 0.14, 64, 8), 0x2997ff, 0.34, -1, -3.0, 3.5, 0.2, 0.3);
-      addShape(new THREE.OctahedronGeometry(0.6, 0), 0xffffff, 0.18, 1, -4.5, 5.5, 0.18, 0.25);
-
+ 
+      // A binary heap drawn in 3D. Array layout: the children of node i
+      // are 2i+1 and 2i+2. Levels alternate between spreading along x and
+      // z so it reads as a volume. A pulse walks root -> leaf like a
+      // traversal, then starts again from the root.
+      var TREE_N = 31, treePos = [], treeSeg = [];
+      (function () {
+        var spread = [0.45, 0.32, 0.22, 0.14];
+        treePos[0] = new THREE.Vector3(0, 0.68, 0);
+        for (var i = 0; 2 * i + 1 < TREE_N; i++) {
+          var level = Math.floor(Math.log2(i + 1));
+          var axis = level % 2 === 0 ? "x" : "z";
+          for (var k = 0; k < 2; k++) {
+            var child = treePos[i].clone();
+            child[axis] += (k === 0 ? -1 : 1) * spread[level];
+            child.y -= 0.34;
+            treePos[2 * i + 1 + k] = child;
+            treeSeg.push(treePos[i].x, treePos[i].y, treePos[i].z, child.x, child.y, child.z);
+          }
+        }
+      })();
+ 
+      var tree = new THREE.Group();
+      var treeEdgeMat = new THREE.LineBasicMaterial({ color: 0x2997ff, transparent: true, opacity: 0, depthWrite: false });
+      var treeEdgeGeo = new THREE.BufferGeometry();
+      treeEdgeGeo.setAttribute("position", new THREE.Float32BufferAttribute(treeSeg, 3));
+      tree.add(new THREE.LineSegments(treeEdgeGeo, treeEdgeMat));
+ 
+      var treeNodeMat = new THREE.PointsMaterial({
+        size: 0.1, map: sprite, color: 0xcfe6ff, transparent: true, opacity: 0,
+        depthWrite: false, sizeAttenuation: true
+      });
+      tree.add(new THREE.Points(new THREE.BufferGeometry().setFromPoints(treePos), treeNodeMat));
+ 
+      var walkers = [
+        { cur: 0, next: 1, t: 0.0, speed: 0.9 },
+        { cur: 0, next: 2, t: 0.55, speed: 0.9 }
+      ];
+      var walkPos = new Float32Array(walkers.length * 3);
+      var walkGeo = new THREE.BufferGeometry();
+      walkGeo.setAttribute("position", new THREE.BufferAttribute(walkPos, 3));
+      var walkMat = new THREE.PointsMaterial({
+        size: 0.22, map: sprite, color: 0x2997ff, transparent: true, opacity: 0,
+        depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
+      });
+      tree.add(new THREE.Points(walkGeo, walkMat));
+ 
+      function stepWalkers(dt) {
+        walkers.forEach(function (w, i) {
+          w.t += w.speed * dt;
+          if (w.t >= 1) {
+            w.t -= 1;
+            w.cur = w.next;
+            if (2 * w.cur + 1 < TREE_N) {
+              w.next = 2 * w.cur + 1 + Math.round(Math.random()); // pick a child
+            } else {
+              w.cur = 0; // reached a leaf: restart from the root
+              w.next = 1 + Math.round(Math.random());
+            }
+          }
+          var A = treePos[w.cur], B = treePos[w.next];
+          walkPos[i * 3] = A.x + (B.x - A.x) * w.t;
+          walkPos[i * 3 + 1] = A.y + (B.y - A.y) * w.t;
+          walkPos[i * 3 + 2] = A.z + (B.z - A.z) * w.t;
+        });
+        walkGeo.attributes.position.needsUpdate = true;
+      }
+      stepWalkers(0);
+ 
+      // Bubble sort, forever: seven bars; the pair being compared lights
+      // up blue, swaps slide the bars across, the sorted row holds a
+      // moment, then it reshuffles and starts again.
+      var SORT_N = 7, SORT_STEP = 0.42, SORT_HOLD = 1.8;
+      var boxEdges = new THREE.EdgesGeometry(new THREE.BoxGeometry(1, 1, 1));
+      var sortGroup = new THREE.Group();
+      var sortMats = [], sortBars = [], sortArr = [];
+      var sortI = 0, sortPass = 0, sortClock = 0, sorting = true;
+ 
+      function setBar(bar, v, snap) {
+        bar.v = v;
+        bar.th = 0.18 + v * 0.11;
+        if (snap) bar.h = bar.th;
+      }
+      function layoutBars(snap) {
+        sortArr.forEach(function (bar, slot) {
+          bar.tx = (slot - (SORT_N - 1) / 2) * 0.17;
+          if (snap) bar.x = bar.tx;
+        });
+      }
+      [3, 6, 2, 7, 1, 5, 4].forEach(function (v) {
+        var mat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false });
+        var bar = { mesh: new THREE.LineSegments(boxEdges, mat), mat: mat, v: 0, x: 0, tx: 0, h: 0, th: 0 };
+        setBar(bar, v, true);
+        sortGroup.add(bar.mesh);
+        sortMats.push({ m: mat, op: 0.55 });
+        sortBars.push(bar);
+        sortArr.push(bar);
+      });
+      layoutBars(true);
+ 
+      function reshuffle() {
+        var vals = [1, 2, 3, 4, 5, 6, 7];
+        for (var i = vals.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = vals[i]; vals[i] = vals[j]; vals[j] = t;
+        }
+        sortArr.forEach(function (bar, slot) { setBar(bar, vals[slot], false); bar.mat.color.setHex(0xffffff); });
+        sortI = 0; sortPass = 0; sortClock = 0; sorting = true;
+      }
+ 
+      function stepSort(dt) {
+        var ease = Math.min(1, dt * 10);
+        sortBars.forEach(function (bar) {
+          bar.x += (bar.tx - bar.x) * ease;
+          bar.h += (bar.th - bar.h) * ease;
+          bar.mesh.position.set(bar.x, -0.55 + bar.h / 2, 0);
+          bar.mesh.scale.set(0.11, bar.h, 0.11);
+        });
+        sortGroup.rotation.y = Math.sin(spin * 3) * 0.55; // rock, so it never turns edge-on for long
+ 
+        sortClock += dt;
+        if (!sorting) {
+          if (sortClock > SORT_HOLD) reshuffle();
+          return;
+        }
+        if (sortClock < SORT_STEP) return;
+        sortClock = 0;
+        sortBars.forEach(function (bar) { bar.mat.color.setHex(0xffffff); });
+        if (sortPass >= SORT_N - 1) {
+          sorting = false; // sorted: whole row goes blue and holds
+          sortBars.forEach(function (bar) { bar.mat.color.setHex(0x2997ff); });
+          return;
+        }
+        var a = sortArr[sortI], b = sortArr[sortI + 1];
+        a.mat.color.setHex(0x2997ff);
+        b.mat.color.setHex(0x2997ff);
+        if (a.v > b.v) {
+          sortArr[sortI] = b;
+          sortArr[sortI + 1] = a;
+          layoutBars(false);
+        }
+        sortI++;
+        if (sortI >= SORT_N - 1 - sortPass) { sortI = 0; sortPass++; }
+      }
+      addShape(sortGroup, sortMats, -1, 1.0, 1.5, 0, 0, 0.25, stepSort);
+      // The tree only turns about its vertical axis (spinX 0) so it never flips upside down.
+      addShape(tree, [{ m: treeEdgeMat, op: 0.5 }, { m: treeNodeMat, op: 0.9 }, { m: walkMat, op: 1 }],
+        -1, -3.0, 3.5, 0, 0.3, 0.2, stepWalkers);
+ 
+      // A linked list: five nodes joined by "next" arrows. A pulse walks
+      // head -> tail like a traversal, pauses past the end, and restarts.
+      var LIST_N = 5, LIST_GAP = 0.42;
+      var listPts = [], linkSeg = [], listT = 0;
+      var listGroup = new THREE.Group();
+      var listCubeMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false });
+      var listLinkMat = new THREE.LineBasicMaterial({ color: 0x2997ff, transparent: true, opacity: 0, depthWrite: false });
+      for (var ln = 0; ln < LIST_N; ln++) {
+        var odd = ln % 2;
+        var lp = new THREE.Vector3(odd ? 0.07 : -0.07, ((LIST_N - 1) / 2 - ln) * LIST_GAP, odd ? -0.05 : 0.05);
+        listPts.push(lp);
+        var cube = new THREE.LineSegments(boxEdges, listCubeMat);
+        cube.scale.setScalar(0.24);
+        cube.position.copy(lp);
+        listGroup.add(cube);
+      }
+      for (var lk = 0; lk < LIST_N - 1; lk++) {
+        var from = listPts[lk].clone(); from.y -= 0.12;
+        var to = listPts[lk + 1].clone(); to.y += 0.12;
+        var dir = to.clone().sub(from).normalize();
+        var tail = to.clone().addScaledVector(dir, -0.07);
+        var wing = new THREE.Vector3(1, 0, 0).cross(dir).normalize().multiplyScalar(0.04);
+        linkSeg.push(
+          from.x, from.y, from.z, to.x, to.y, to.z, // the "next" pointer
+          to.x, to.y, to.z, tail.x + wing.x, tail.y + wing.y, tail.z + wing.z, // arrowhead
+          to.x, to.y, to.z, tail.x - wing.x, tail.y - wing.y, tail.z - wing.z
+        );
+      }
+      var linkGeo = new THREE.BufferGeometry();
+      linkGeo.setAttribute("position", new THREE.Float32BufferAttribute(linkSeg, 3));
+      listGroup.add(new THREE.LineSegments(linkGeo, listLinkMat));
+ 
+      var listPulsePos = new Float32Array(3);
+      var listPulseGeo = new THREE.BufferGeometry();
+      listPulseGeo.setAttribute("position", new THREE.BufferAttribute(listPulsePos, 3));
+      var listPulseMat = new THREE.PointsMaterial({
+        size: 0.2, map: sprite, color: 0x2997ff, transparent: true, opacity: 0,
+        depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
+      });
+      listGroup.add(new THREE.Points(listPulseGeo, listPulseMat));
+ 
+      function stepList(dt) {
+        var cycle = (LIST_N - 1) + 0.9;
+        listT = (listT + dt * 0.9) % cycle;
+        var u = Math.min(listT, LIST_N - 1);
+        var i = Math.min(Math.floor(u), LIST_N - 2), f = u - i;
+        var A = listPts[i], B = listPts[i + 1];
+        listPulsePos[0] = A.x + (B.x - A.x) * f;
+        listPulsePos[1] = A.y + (B.y - A.y) * f;
+        listPulsePos[2] = A.z + (B.z - A.z) * f;
+        listPulseGeo.attributes.position.needsUpdate = true;
+      }
+      stepList(0);
+      addShape(listGroup, [{ m: listCubeMat, op: 0.55 }, { m: listLinkMat, op: 0.6 }, { m: listPulseMat, op: 1 }],
+        1, -4.5, 5.5, 0, 0.3, 0.15, stepList);
+ 
       function stepPulses(dt) {
         pulses.forEach(function (pl, i) {
           pl.t += pl.speed * dt;
@@ -1903,7 +2105,7 @@
         pulseGeo.attributes.position.needsUpdate = true;
       }
       stepPulses(0);
-
+ 
       // Layout: sit the graph to the right on wide screens (clear of the
       // hero text), centred and scaled down on narrow ones.
       var halfH = Math.tan(THREE.MathUtils.degToRad(25)) * camera.position.z;
@@ -1917,13 +2119,13 @@
         offsetX = camera.aspect > 1.15 ? halfW * 0.5 : 0;
         shapesOn = camera.aspect >= 1.4; // needs side margins to sit in
         var halfWAtShapes = halfH * ((camera.position.z - SHAPE_Z) / camera.position.z) * camera.aspect;
-        shapes.forEach(function (s) { s.mesh.position.x = s.side * halfWAtShapes * 0.78; });
+        shapes.forEach(function (s) { s.mesh.position.x = s.side * halfWAtShapes * 0.8; });
         fit = Math.min(1, (0.9 * Math.min(halfW - offsetX, halfH)) / RADIUS);
         staticDrawn = false;
       }
       resize();
       window.addEventListener("resize", resize);
-
+ 
       // e = intro fade (0..1); dim = how far the graph recedes once you
       // scroll past the hero, so lines don't compete with card text.
       function pose(e, dim) {
@@ -1933,11 +2135,13 @@
         haloMat.opacity = 0.9 * e;
         hiMat.opacity = e;
         dustMat.opacity = 0.55 * e;
-        shapes.forEach(function (s) { s.mat.opacity = shapesOn ? s.op * e : 0; });
+        shapes.forEach(function (s) {
+          s.mats.forEach(function (o) { o.m.opacity = shapesOn ? o.op * e : 0; });
+        });
         group.scale.setScalar(fit * (0.7 + 0.3 * e));
         group.position.x = offsetX;
       }
-
+ 
       var mx = 0, my = 0, cx = 0, cy = 0;
       var spin = 0, scrollSmooth = 0, intro = 0, last = performance.now();
       window.addEventListener("mousemove", function (ev) {
@@ -1949,19 +2153,19 @@
       root.addEventListener("mouseleave", function () {
         ndcMouse.x = ndcMouse.y = 9;
       });
-
+ 
       function frame(now) {
         requestAnimationFrame(frame);
         var dt = Math.min((now - last) / 1000, 0.05);
         last = now;
-
+ 
         if (root.classList.contains("reduce-motion")) {
           if (!staticDrawn) {
             group.rotation.set(0.35, 0.6, 0);
             group.position.y = 0;
             dust.position.set(0, 0, 0);
             shapes.forEach(function (s) {
-              s.mesh.rotation.set(0.4, 0.6, 0);
+              s.mesh.rotation.set(s.tilt, 0.6, 0);
               s.mesh.position.y = s.baseY;
             });
             camera.position.set(0, 0, 5);
@@ -1974,10 +2178,10 @@
           return;
         }
         staticDrawn = false;
-
+ 
         intro = Math.min(1, intro + dt / 2.2);
         var eased = 1 - Math.pow(1 - intro, 3);
-
+ 
         var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
         var sp = maxScroll > 0 ? window.scrollY / maxScroll : 0;
         scrollSmooth += (sp - scrollSmooth) * Math.min(1, dt * 3);
@@ -1985,19 +2189,20 @@
         group.rotation.y = spin + scrollSmooth * Math.PI * 1.4;
         group.rotation.x = 0.25 + scrollSmooth * 0.6;
         group.position.y = Math.sin(spin * 2.2) * 0.07; // slow float
-
+ 
         cx += (mx * 0.5 - cx) * Math.min(1, dt * 2);
         cy += (-my * 0.35 - cy) * Math.min(1, dt * 2);
         camera.position.set(cx, cy, 5);
         camera.lookAt(0, 0, 0);
-
+ 
         dust.position.set(Math.sin(spin * 0.6) * 0.25 - cx * 0.3, scrollSmooth * 2.5, 0);
         shapes.forEach(function (s) {
           s.mesh.rotation.x += dt * s.sx;
           s.mesh.rotation.y += dt * s.sy;
           s.mesh.position.y = s.baseY + scrollSmooth * s.rate;
+          if (s.step) s.step(dt);
         });
-
+ 
         stepPulses(dt);
         pose(eased, 1 - 0.45 * Math.min(1, scrollSmooth * 4));
         group.updateMatrixWorld();
@@ -2005,13 +2210,14 @@
         updateGlow(dt);
         renderer.render(scene, camera);
       }
-
+ 
       canvas.classList.add("is-ready");
       requestAnimationFrame(frame);
     })();
   </script>
-
+ 
   <script src="glossary.js"></script>
-
+ 
 </body>
 </html>
+ 
