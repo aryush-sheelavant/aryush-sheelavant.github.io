@@ -1680,10 +1680,11 @@
   <script>
     // ============================================================
     // 3D NODE GRAPH (WebGL / Three.js)
-    // A graph of ~70 nodes — a nod to the DSA focus — slowly turning
-    // in real 3D, with accent-blue pulses hopping along its edges.
-    // Around it: depth dust and wireframe solids drifting at their own
-    // parallax rates. It turns with scroll, leans toward the cursor,
+    // A graph of node-and-edge connections — a nod to the DSA focus —
+    // that surrounds the viewer in real 3D, so it fills the whole
+    // screen on every section. Accent-blue pulses hop along its edges.
+    // Around it: faint depth dust that drifts at its own parallax rate.
+    // It turns with scroll, leans toward the cursor,
     // and nodes/edges near the pointer light up. If WebGL or the CDN
     // is unavailable this silently does nothing and the page is
     // unchanged. Freezes to a still frame under reduce-motion.
@@ -1701,11 +1702,18 @@
       }
  
       var small = window.innerWidth < 700;
-      var NODES = small ? 38 : 72;
-      var PULSES = small ? 4 : 7;
-      var RADIUS = 1.7;
-      var EDGE_OPACITY = small ? 0.08 : 0.18;
-      var NODE_OPACITY = small ? 0.5 : 0.85;
+      // The nodes fill a thick shell *around the camera*, so wherever
+      // you look (and however it turns) the screen is covered. Only a
+      // slice of the shell is ever on screen, so the total is scaled
+      // to the window shape to keep roughly the same number in view.
+      var SHELL_NEAR = 4.5, SHELL_FAR = 9;
+      var deg25 = THREE.MathUtils.degToRad(25);
+      var halfAngleX = Math.atan(Math.tan(deg25) * (window.innerWidth / window.innerHeight));
+      var viewFraction = Math.asin(Math.sin(halfAngleX) * Math.sin(deg25)) / Math.PI; // share of the sphere in view
+      var NODES = Math.min(1600, Math.round((small ? 55 : 100) / viewFraction));
+      var PULSES = Math.round(NODES * 0.08);
+      var EDGE_OPACITY = small ? 0.12 : 0.14;
+      var NODE_OPACITY = small ? 0.5 : 0.7;
  
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setClearColor(0x000000, 0);
@@ -1714,6 +1722,7 @@
       var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 50);
       camera.position.z = 5;
       var group = new THREE.Group();
+      group.position.z = camera.position.z; // centred on the camera: the graph surrounds the viewer
       scene.add(group);
  
       // Soft round sprite so nodes render as glowing dots, not squares.
@@ -1728,35 +1737,42 @@
       sctx.fillRect(0, 0, 64, 64);
       var sprite = new THREE.CanvasTexture(spriteCanvas);
  
-      // Nodes: a fibonacci sphere with random depth, so it reads as a
-      // volume rather than a hollow shell.
+      // Nodes: uniformly random points inside the shell.
       var pts = [];
+      var nearCubed = SHELL_NEAR * SHELL_NEAR * SHELL_NEAR;
+      var farCubed = SHELL_FAR * SHELL_FAR * SHELL_FAR;
       for (var i = 0; i < NODES; i++) {
-        var y = 1 - (i / (NODES - 1)) * 2;
-        var ring = Math.sqrt(1 - y * y);
-        var theta = i * 2.399963;
-        var k = RADIUS * (0.55 + Math.random() * 0.45);
-        pts.push(new THREE.Vector3(Math.cos(theta) * ring * k, y * k, Math.sin(theta) * ring * k));
+        var u = Math.random() * 2 - 1;
+        var phi = Math.random() * Math.PI * 2;
+        var ring = Math.sqrt(1 - u * u);
+        var rr = Math.cbrt(nearCubed + Math.random() * (farCubed - nearCubed));
+        pts.push(new THREE.Vector3(Math.cos(phi) * ring * rr, u * rr, Math.sin(phi) * ring * rr));
       }
  
-      // Edges: connect every node to its 3 nearest neighbours.
+      // Edges: connect every node to its 3 nearest neighbours. One pass
+      // per node keeping the three closest, so ~1000 nodes builds fast.
       var adj = pts.map(function () { return []; });
       var seen = {};
       var seg = [], edges = [];
       pts.forEach(function (p, a) {
-        pts
-          .map(function (q, b) { return { b: b, d: a === b ? Infinity : p.distanceToSquared(q) }; })
-          .sort(function (m, n) { return m.d - n.d; })
-          .slice(0, 3)
-          .forEach(function (n) {
-            var key = Math.min(a, n.b) + "-" + Math.max(a, n.b);
-            if (seen[key]) return;
-            seen[key] = 1;
-            adj[a].push(n.b);
-            adj[n.b].push(a);
-            seg.push(p.x, p.y, p.z, pts[n.b].x, pts[n.b].y, pts[n.b].z);
-            edges.push(a, n.b);
-          });
+        var best = [{ b: -1, d: Infinity }, { b: -1, d: Infinity }, { b: -1, d: Infinity }];
+        for (var b = 0; b < NODES; b++) {
+          if (b === a) continue;
+          var d = p.distanceToSquared(pts[b]);
+          if (d < best[2].d) {
+            best[2] = { b: b, d: d };
+            best.sort(function (m, n) { return m.d - n.d; });
+          }
+        }
+        best.forEach(function (n) {
+          var key = Math.min(a, n.b) + "-" + Math.max(a, n.b);
+          if (seen[key]) return;
+          seen[key] = 1;
+          adj[a].push(n.b);
+          adj[n.b].push(a);
+          seg.push(p.x, p.y, p.z, pts[n.b].x, pts[n.b].y, pts[n.b].z);
+          edges.push(a, n.b);
+        });
       });
  
       var lineGeo = new THREE.BufferGeometry();
@@ -1774,13 +1790,13 @@
       var pulses = [];
       for (var p = 0; p < PULSES; p++) {
         var start = Math.floor(Math.random() * NODES);
-        pulses.push({ a: start, b: adj[start][0], t: Math.random(), speed: 0.35 + Math.random() * 0.35 });
+        pulses.push({ a: start, b: adj[start][0], t: Math.random(), speed: 0.5 + Math.random() * 0.45 }); // world units / second
       }
       var pulsePos = new Float32Array(PULSES * 3);
       var pulseGeo = new THREE.BufferGeometry();
       pulseGeo.setAttribute("position", new THREE.BufferAttribute(pulsePos, 3));
       var pulseMat = new THREE.PointsMaterial({
-        size: 0.22, map: sprite, color: 0x2997ff, transparent: true, opacity: 0,
+        size: 0.18, map: sprite, color: 0x2997ff, transparent: true, opacity: 0,
         depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
       });
       group.add(new THREE.Points(pulseGeo, pulseMat));
@@ -1823,10 +1839,14 @@
         var R = 0.55; // glow radius, in screen-height units
         var k, v;
         for (var i = 0; i < NODES; i++) {
-          tmp.copy(pts[i]).applyMatrix4(group.matrixWorld).project(camera);
-          var dx = (tmp.x - ndcMouse.x) * camera.aspect;
-          var dy = tmp.y - ndcMouse.y;
-          var near = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / R);
+          tmp.copy(pts[i]).applyMatrix4(group.matrixWorld).applyMatrix4(camera.matrixWorldInverse);
+          var near = 0;
+          if (tmp.z < -0.2) { // in front of the camera; behind it would project to nonsense
+            tmp.applyMatrix4(camera.projectionMatrix);
+            var dx = (tmp.x - ndcMouse.x) * camera.aspect;
+            var dy = tmp.y - ndcMouse.y;
+            near = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / R);
+          }
           infl[i] += (near * near - infl[i]) * Math.min(1, dt * 8);
           setGlow(i, infl[i]);
         }
@@ -1867,229 +1887,9 @@
       var dust = new THREE.Points(dustGeo, dustMat);
       scene.add(dust);
  
-      // --- Floating wireframe solids on the page margins. Each drifts up
-      // at its own rate as you scroll, so they enter and leave at
-      // different times (wide screens only — see shapesOn).
-      var shapes = [];
-      // side: -1 left / +1 right. x is set in resize() as a fraction of
-      // the visible width, so they sit inside the margin at any size.
-      var SHAPE_Z = -2;
-      // obj: any Object3D; mats: [{ m: material, op: its resting opacity }];
-      // step(dt): optional per-frame animation for the shape's own logic.
-      function addShape(obj, mats, side, y, rate, spinX, spinY, tilt, step) {
-        obj.position.set(0, y, SHAPE_Z);
-        obj.rotation.x = tilt;
-        scene.add(obj);
-        shapes.push({ mesh: obj, mats: mats, side: side, baseY: y, rate: rate, sx: spinX, sy: spinY, tilt: tilt, step: step });
-      }
- 
-      // A binary heap drawn in 3D. Array layout: the children of node i
-      // are 2i+1 and 2i+2. Levels alternate between spreading along x and
-      // z so it reads as a volume. A pulse walks root -> leaf like a
-      // traversal, then starts again from the root.
-      var TREE_N = 31, treePos = [], treeSeg = [];
-      (function () {
-        var spread = [0.45, 0.32, 0.22, 0.14];
-        treePos[0] = new THREE.Vector3(0, 0.68, 0);
-        for (var i = 0; 2 * i + 1 < TREE_N; i++) {
-          var level = Math.floor(Math.log2(i + 1));
-          var axis = level % 2 === 0 ? "x" : "z";
-          for (var k = 0; k < 2; k++) {
-            var child = treePos[i].clone();
-            child[axis] += (k === 0 ? -1 : 1) * spread[level];
-            child.y -= 0.34;
-            treePos[2 * i + 1 + k] = child;
-            treeSeg.push(treePos[i].x, treePos[i].y, treePos[i].z, child.x, child.y, child.z);
-          }
-        }
-      })();
- 
-      var tree = new THREE.Group();
-      var treeEdgeMat = new THREE.LineBasicMaterial({ color: 0x2997ff, transparent: true, opacity: 0, depthWrite: false });
-      var treeEdgeGeo = new THREE.BufferGeometry();
-      treeEdgeGeo.setAttribute("position", new THREE.Float32BufferAttribute(treeSeg, 3));
-      tree.add(new THREE.LineSegments(treeEdgeGeo, treeEdgeMat));
- 
-      var treeNodeMat = new THREE.PointsMaterial({
-        size: 0.1, map: sprite, color: 0xcfe6ff, transparent: true, opacity: 0,
-        depthWrite: false, sizeAttenuation: true
-      });
-      tree.add(new THREE.Points(new THREE.BufferGeometry().setFromPoints(treePos), treeNodeMat));
- 
-      var walkers = [
-        { cur: 0, next: 1, t: 0.0, speed: 0.9 },
-        { cur: 0, next: 2, t: 0.55, speed: 0.9 }
-      ];
-      var walkPos = new Float32Array(walkers.length * 3);
-      var walkGeo = new THREE.BufferGeometry();
-      walkGeo.setAttribute("position", new THREE.BufferAttribute(walkPos, 3));
-      var walkMat = new THREE.PointsMaterial({
-        size: 0.22, map: sprite, color: 0x2997ff, transparent: true, opacity: 0,
-        depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
-      });
-      tree.add(new THREE.Points(walkGeo, walkMat));
- 
-      function stepWalkers(dt) {
-        walkers.forEach(function (w, i) {
-          w.t += w.speed * dt;
-          if (w.t >= 1) {
-            w.t -= 1;
-            w.cur = w.next;
-            if (2 * w.cur + 1 < TREE_N) {
-              w.next = 2 * w.cur + 1 + Math.round(Math.random()); // pick a child
-            } else {
-              w.cur = 0; // reached a leaf: restart from the root
-              w.next = 1 + Math.round(Math.random());
-            }
-          }
-          var A = treePos[w.cur], B = treePos[w.next];
-          walkPos[i * 3] = A.x + (B.x - A.x) * w.t;
-          walkPos[i * 3 + 1] = A.y + (B.y - A.y) * w.t;
-          walkPos[i * 3 + 2] = A.z + (B.z - A.z) * w.t;
-        });
-        walkGeo.attributes.position.needsUpdate = true;
-      }
-      stepWalkers(0);
- 
-      // Bubble sort, forever: seven bars; the pair being compared lights
-      // up blue, swaps slide the bars across, the sorted row holds a
-      // moment, then it reshuffles and starts again.
-      var SORT_N = 7, SORT_STEP = 0.42, SORT_HOLD = 1.8;
-      var boxEdges = new THREE.EdgesGeometry(new THREE.BoxGeometry(1, 1, 1));
-      var sortGroup = new THREE.Group();
-      var sortMats = [], sortBars = [], sortArr = [];
-      var sortI = 0, sortPass = 0, sortClock = 0, sorting = true;
- 
-      function setBar(bar, v, snap) {
-        bar.v = v;
-        bar.th = 0.18 + v * 0.11;
-        if (snap) bar.h = bar.th;
-      }
-      function layoutBars(snap) {
-        sortArr.forEach(function (bar, slot) {
-          bar.tx = (slot - (SORT_N - 1) / 2) * 0.17;
-          if (snap) bar.x = bar.tx;
-        });
-      }
-      [3, 6, 2, 7, 1, 5, 4].forEach(function (v) {
-        var mat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false });
-        var bar = { mesh: new THREE.LineSegments(boxEdges, mat), mat: mat, v: 0, x: 0, tx: 0, h: 0, th: 0 };
-        setBar(bar, v, true);
-        sortGroup.add(bar.mesh);
-        sortMats.push({ m: mat, op: 0.55 });
-        sortBars.push(bar);
-        sortArr.push(bar);
-      });
-      layoutBars(true);
- 
-      function reshuffle() {
-        var vals = [1, 2, 3, 4, 5, 6, 7];
-        for (var i = vals.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var t = vals[i]; vals[i] = vals[j]; vals[j] = t;
-        }
-        sortArr.forEach(function (bar, slot) { setBar(bar, vals[slot], false); bar.mat.color.setHex(0xffffff); });
-        sortI = 0; sortPass = 0; sortClock = 0; sorting = true;
-      }
- 
-      function stepSort(dt) {
-        var ease = Math.min(1, dt * 10);
-        sortBars.forEach(function (bar) {
-          bar.x += (bar.tx - bar.x) * ease;
-          bar.h += (bar.th - bar.h) * ease;
-          bar.mesh.position.set(bar.x, -0.55 + bar.h / 2, 0);
-          bar.mesh.scale.set(0.11, bar.h, 0.11);
-        });
-        sortGroup.rotation.y = Math.sin(spin * 3) * 0.55; // rock, so it never turns edge-on for long
- 
-        sortClock += dt;
-        if (!sorting) {
-          if (sortClock > SORT_HOLD) reshuffle();
-          return;
-        }
-        if (sortClock < SORT_STEP) return;
-        sortClock = 0;
-        sortBars.forEach(function (bar) { bar.mat.color.setHex(0xffffff); });
-        if (sortPass >= SORT_N - 1) {
-          sorting = false; // sorted: whole row goes blue and holds
-          sortBars.forEach(function (bar) { bar.mat.color.setHex(0x2997ff); });
-          return;
-        }
-        var a = sortArr[sortI], b = sortArr[sortI + 1];
-        a.mat.color.setHex(0x2997ff);
-        b.mat.color.setHex(0x2997ff);
-        if (a.v > b.v) {
-          sortArr[sortI] = b;
-          sortArr[sortI + 1] = a;
-          layoutBars(false);
-        }
-        sortI++;
-        if (sortI >= SORT_N - 1 - sortPass) { sortI = 0; sortPass++; }
-      }
-      addShape(sortGroup, sortMats, -1, 1.0, 1.5, 0, 0, 0.25, stepSort);
-      // The tree only turns about its vertical axis (spinX 0) so it never flips upside down.
-      addShape(tree, [{ m: treeEdgeMat, op: 0.5 }, { m: treeNodeMat, op: 0.9 }, { m: walkMat, op: 1 }],
-        -1, -3.0, 3.5, 0, 0.3, 0.2, stepWalkers);
- 
-      // A linked list: five nodes joined by "next" arrows. A pulse walks
-      // head -> tail like a traversal, pauses past the end, and restarts.
-      var LIST_N = 5, LIST_GAP = 0.42;
-      var listPts = [], linkSeg = [], listT = 0;
-      var listGroup = new THREE.Group();
-      var listCubeMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false });
-      var listLinkMat = new THREE.LineBasicMaterial({ color: 0x2997ff, transparent: true, opacity: 0, depthWrite: false });
-      for (var ln = 0; ln < LIST_N; ln++) {
-        var odd = ln % 2;
-        var lp = new THREE.Vector3(odd ? 0.07 : -0.07, ((LIST_N - 1) / 2 - ln) * LIST_GAP, odd ? -0.05 : 0.05);
-        listPts.push(lp);
-        var cube = new THREE.LineSegments(boxEdges, listCubeMat);
-        cube.scale.setScalar(0.24);
-        cube.position.copy(lp);
-        listGroup.add(cube);
-      }
-      for (var lk = 0; lk < LIST_N - 1; lk++) {
-        var from = listPts[lk].clone(); from.y -= 0.12;
-        var to = listPts[lk + 1].clone(); to.y += 0.12;
-        var dir = to.clone().sub(from).normalize();
-        var tail = to.clone().addScaledVector(dir, -0.07);
-        var wing = new THREE.Vector3(1, 0, 0).cross(dir).normalize().multiplyScalar(0.04);
-        linkSeg.push(
-          from.x, from.y, from.z, to.x, to.y, to.z, // the "next" pointer
-          to.x, to.y, to.z, tail.x + wing.x, tail.y + wing.y, tail.z + wing.z, // arrowhead
-          to.x, to.y, to.z, tail.x - wing.x, tail.y - wing.y, tail.z - wing.z
-        );
-      }
-      var linkGeo = new THREE.BufferGeometry();
-      linkGeo.setAttribute("position", new THREE.Float32BufferAttribute(linkSeg, 3));
-      listGroup.add(new THREE.LineSegments(linkGeo, listLinkMat));
- 
-      var listPulsePos = new Float32Array(3);
-      var listPulseGeo = new THREE.BufferGeometry();
-      listPulseGeo.setAttribute("position", new THREE.BufferAttribute(listPulsePos, 3));
-      var listPulseMat = new THREE.PointsMaterial({
-        size: 0.2, map: sprite, color: 0x2997ff, transparent: true, opacity: 0,
-        depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
-      });
-      listGroup.add(new THREE.Points(listPulseGeo, listPulseMat));
- 
-      function stepList(dt) {
-        var cycle = (LIST_N - 1) + 0.9;
-        listT = (listT + dt * 0.9) % cycle;
-        var u = Math.min(listT, LIST_N - 1);
-        var i = Math.min(Math.floor(u), LIST_N - 2), f = u - i;
-        var A = listPts[i], B = listPts[i + 1];
-        listPulsePos[0] = A.x + (B.x - A.x) * f;
-        listPulsePos[1] = A.y + (B.y - A.y) * f;
-        listPulsePos[2] = A.z + (B.z - A.z) * f;
-        listPulseGeo.attributes.position.needsUpdate = true;
-      }
-      stepList(0);
-      addShape(listGroup, [{ m: listCubeMat, op: 0.55 }, { m: listLinkMat, op: 0.6 }, { m: listPulseMat, op: 1 }],
-        1, -4.5, 5.5, 0, 0.3, 0.15, stepList);
- 
       function stepPulses(dt) {
         pulses.forEach(function (pl, i) {
-          pl.t += pl.speed * dt;
+          pl.t += (pl.speed * dt) / Math.max(0.3, pts[pl.a].distanceTo(pts[pl.b]));
           if (pl.t >= 1) {
             var options = adj[pl.b].filter(function (n) { return n !== pl.a; });
             if (!options.length) options = adj[pl.b];
@@ -2106,21 +1906,12 @@
       }
       stepPulses(0);
  
-      // Layout: sit the graph to the right on wide screens (clear of the
-      // hero text), centred and scaled down on narrow ones.
-      var halfH = Math.tan(THREE.MathUtils.degToRad(25)) * camera.position.z;
-      var fit = 1, offsetX = 0, shapesOn = false, staticDrawn = false;
+      var staticDrawn = false;
       function resize() {
         var w = window.innerWidth, h = window.innerHeight;
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        var halfW = halfH * camera.aspect;
-        offsetX = camera.aspect > 1.15 ? halfW * 0.5 : 0;
-        shapesOn = camera.aspect >= 1.4; // needs side margins to sit in
-        var halfWAtShapes = halfH * ((camera.position.z - SHAPE_Z) / camera.position.z) * camera.aspect;
-        shapes.forEach(function (s) { s.mesh.position.x = s.side * halfWAtShapes * 0.8; });
-        fit = Math.min(1, (0.9 * Math.min(halfW - offsetX, halfH)) / RADIUS);
         staticDrawn = false;
       }
       resize();
@@ -2135,11 +1926,7 @@
         haloMat.opacity = 0.9 * e;
         hiMat.opacity = e;
         dustMat.opacity = 0.55 * e;
-        shapes.forEach(function (s) {
-          s.mats.forEach(function (o) { o.m.opacity = shapesOn ? o.op * e : 0; });
-        });
-        group.scale.setScalar(fit * (0.7 + 0.3 * e));
-        group.position.x = offsetX;
+        group.scale.setScalar(0.7 + 0.3 * e); // grows outward around the viewer on load
       }
  
       var mx = 0, my = 0, cx = 0, cy = 0;
@@ -2161,13 +1948,8 @@
  
         if (root.classList.contains("reduce-motion")) {
           if (!staticDrawn) {
-            group.rotation.set(0.35, 0.6, 0);
-            group.position.y = 0;
+            group.rotation.set(0.5, 0.4, 0);
             dust.position.set(0, 0, 0);
-            shapes.forEach(function (s) {
-              s.mesh.rotation.set(s.tilt, 0.6, 0);
-              s.mesh.position.y = s.baseY;
-            });
             camera.position.set(0, 0, 5);
             camera.lookAt(0, 0, 0);
             clearGlow();
@@ -2185,26 +1967,19 @@
         var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
         var sp = maxScroll > 0 ? window.scrollY / maxScroll : 0;
         scrollSmooth += (sp - scrollSmooth) * Math.min(1, dt * 3);
-        spin += dt * 0.12;
-        group.rotation.y = spin + scrollSmooth * Math.PI * 1.4;
-        group.rotation.x = 0.25 + scrollSmooth * 0.6;
-        group.position.y = Math.sin(spin * 2.2) * 0.07; // slow float
+        spin += dt * 0.03;
+        group.rotation.y = spin + scrollSmooth * 0.9;
+        group.rotation.x = scrollSmooth * 1.3; // scrolling carries the graph upward, slower than the page
  
         cx += (mx * 0.5 - cx) * Math.min(1, dt * 2);
         cy += (-my * 0.35 - cy) * Math.min(1, dt * 2);
         camera.position.set(cx, cy, 5);
         camera.lookAt(0, 0, 0);
  
-        dust.position.set(Math.sin(spin * 0.6) * 0.25 - cx * 0.3, scrollSmooth * 2.5, 0);
-        shapes.forEach(function (s) {
-          s.mesh.rotation.x += dt * s.sx;
-          s.mesh.rotation.y += dt * s.sy;
-          s.mesh.position.y = s.baseY + scrollSmooth * s.rate;
-          if (s.step) s.step(dt);
-        });
+        dust.position.set(Math.sin(spin * 2.4) * 0.25 - cx * 0.3, scrollSmooth * 2.5, 0);
  
         stepPulses(dt);
-        pose(eased, 1 - 0.45 * Math.min(1, scrollSmooth * 4));
+        pose(eased, 1 - 0.35 * Math.min(1, scrollSmooth * 4));
         group.updateMatrixWorld();
         camera.updateMatrixWorld();
         updateGlow(dt);
@@ -2221,3 +1996,4 @@
 </body>
 </html>
  
+
