@@ -458,10 +458,6 @@
     animation: cube-spin 22s linear infinite;
   }
  
-  .code-cube-stage:hover .code-cube {
-    animation-play-state: paused;
-  }
- 
   @keyframes cube-spin {
     from { transform: rotateX(0deg) rotateY(0deg); }
     to   { transform: rotateX(360deg) rotateY(360deg); }
@@ -581,10 +577,6 @@
     height: 100%;
     transform-style: preserve-3d;
     animation: orbit-spin 28s linear infinite;
-  }
- 
-  .orbit-stage:hover .orbit {
-    animation-play-state: paused;
   }
  
   @keyframes orbit-spin {
@@ -713,10 +705,6 @@
     animation: stack-spin 20s linear infinite;
   }
  
-  .stack-stage:hover .stack {
-    animation-play-state: paused;
-  }
- 
   @keyframes stack-spin {
     from { transform: rotateX(58deg) rotateZ(0deg); }
     to   { transform: rotateX(58deg) rotateZ(360deg); }
@@ -769,10 +757,6 @@
   .stack-layer:nth-child(2) { transform: translateZ(0px); animation-delay: -2s; }
   .stack-layer:nth-child(3) { transform: translateZ(34px); animation-delay: -4s; }
  
-  .stack-stage:hover .stack-layer {
-    animation-play-state: paused;
-  }
- 
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -804,24 +788,6 @@
   .project-card:hover {
     border-color: var(--color-border-hover);
     background: var(--color-surface-hover);
-  }
- 
-  .project-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      320px circle at var(--mx, 50%) var(--my, 50%),
-      rgba(255, 255, 255, 0.08),
-      transparent 60%
-    );
-    opacity: 0;
-    transition: opacity var(--transition-fast);
-    pointer-events: none;
-  }
- 
-  .project-card:hover::before {
-    opacity: 1;
   }
  
   .project-tag {
@@ -934,10 +900,6 @@
   .path-step:nth-child(2) .path-step-float { animation-duration: 7s; animation-delay: 0.4s; }
   .path-step:nth-child(3) .path-step-float { animation-duration: 8s; animation-delay: 0.8s; }
  
-  .path-step:hover .path-step-float {
-    animation-play-state: paused;
-  }
- 
   @keyframes step-rotate {
     0%, 100% { transform: rotateY(-16deg); }
     50% { transform: rotateY(16deg); }
@@ -982,7 +944,6 @@
   .path-step-inner:hover {
     background: var(--color-surface-hover);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
-    animation-play-state: paused;
   }
  
   html.reduce-motion .path-step-inner {
@@ -1104,6 +1065,101 @@
       text-align: left;
     }
   }
+
+  /* ============================================================
+     12. FILM GRAIN + SOFT VIGNETTE
+     Faint noise + edge darkening over the whole page. Static,
+     almost free, and makes the dark theme feel less flat.
+  ============================================================ */
+  .page-vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 78% 68% at 50% 38%,
+      transparent 35%,
+      rgba(0, 0, 0, 0.42) 100%
+    );
+  }
+
+  .page-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.038;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px 180px;
+  }
+
+  /* ============================================================
+     13. EDGE-LIT GLASS (shared)
+     Soft fill sheen + cursor-following bright border segment.
+     Applied to project cards, skill cards, goal card, contact
+     email pill and secondary buttons so the glass language is
+     consistent across the page.
+  ============================================================ */
+  .glass-edge {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-edge::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      280px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(255, 255, 255, 0.09),
+      transparent 62%
+    );
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glass-edge::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      160px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(255, 255, 255, 0.55),
+      rgba(41, 151, 255, 0.22) 40%,
+      transparent 68%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .glass-edge:hover::before,
+  .glass-edge:hover::after {
+    opacity: 1;
+  }
+
+  /* Keep card content above the sheen layers */
+  .glass-edge > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  html.reduce-motion .glass-edge::before,
+  html.reduce-motion .glass-edge::after {
+    transition: none;
+  }
 </style>
 <link rel="stylesheet" href="glossary.css">
 </head>
@@ -1115,6 +1171,9 @@
   </div>
  
   <canvas class="gl-canvas" id="glCanvas" aria-hidden="true"></canvas>
+
+  <div class="page-vignette" aria-hidden="true"></div>
+  <div class="page-grain" aria-hidden="true"></div>
  
  
   <!-- ================= NAVIGATION ================= -->
@@ -1178,7 +1237,7 @@
  
       <div class="hero-cta-row">
         <a href="#work" class="btn btn-primary">See my work</a>
-        <a href="#contact" class="btn btn-secondary">Get in touch</a>
+        <a href="#contact" class="btn btn-secondary glass-edge">Get in touch</a>
       </div>
     </div>
   </header>
@@ -1201,7 +1260,7 @@
       </div>
       <div class="skills-grid">
  
-        <div class="skill-group reveal">
+        <div class="skill-group glass-edge reveal">
           <h3>Core Programming</h3>
           <div class="tag-list">
             <span class="tag">C</span>
@@ -1210,7 +1269,7 @@
           </div>
         </div>
  
-        <div class="skill-group reveal">
+        <div class="skill-group glass-edge reveal">
           <h3>Design &amp; Tools</h3>
           <div class="tag-list">
             <span class="tag">UI/UX Conceptualization</span>
@@ -1219,7 +1278,7 @@
           </div>
         </div>
  
-        <div class="skill-group reveal">
+        <div class="skill-group glass-edge reveal">
           <h3>Workflow</h3>
           <div class="tag-list">
             <span class="tag">Git</span>
@@ -1248,7 +1307,7 @@
       </div>
       <div class="projects-grid">
  
-        <article class="project-card reveal">
+        <article class="project-card glass-edge reveal">
           <span class="project-tag">Repository</span>
           <h3 class="project-title">
             <a href="https://github.com/aryush-sheelavant/portfolio_building" target="_blank" rel="noopener noreferrer">
@@ -1261,7 +1320,7 @@
           </p>
         </article>
  
-        <article class="project-card reveal">
+        <article class="project-card glass-edge reveal">
           <span class="project-tag">Collaboration</span>
           <h3 class="project-title">
             <a href="https://github.com/chinmayullegaddi2002-lab/Line-Editor-for-c-language-" target="_blank" rel="noopener noreferrer">
@@ -1274,7 +1333,7 @@
           </p>
         </article>
  
-        <article class="project-card reveal">
+        <article class="project-card glass-edge reveal">
           <span class="project-tag">Repository</span>
           <h3 class="project-title">
             <a href="https://github.com/aryush-sheelavant/Leetcode-Solutions" target="_blank" rel="noopener noreferrer">
@@ -1287,7 +1346,7 @@
           </p>
         </article>
  
-        <article class="project-card reveal">
+        <article class="project-card glass-edge reveal">
           <span class="project-tag">Independent Project</span>
           <h3 class="project-title">
             <a href="https://v0-market-mate-platform-2-six.vercel.app/" target="_blank" rel="noopener noreferrer">
@@ -1329,7 +1388,7 @@
           </div>
         </div>
       </div>
-      <div class="goal-card reveal">
+      <div class="goal-card glass-edge reveal">
         <p>
           My goal is to leverage my core skills in Python and DSA to develop robust software
           systems, while continuing to explore UI/UX design and AI technologies to create
@@ -1344,10 +1403,10 @@
     <div class="container">
       <h2 class="contact-heading">Let's build something.</h2>
       <p class="contact-sub">Open to opportunities, collaborations, and a good conversation about code.</p>
-      <a class="contact-email" href="mailto:aryushsheelavant@gmail.com">aryushsheelavant@gmail.com</a>
+      <a class="contact-email glass-edge" href="mailto:aryushsheelavant@gmail.com">aryushsheelavant@gmail.com</a>
       <div class="hero-cta-row" style="justify-content: center; margin-top: var(--space-lg);">
-        <a href="https://www.linkedin.com/in/aryush-sheelavant" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">LinkedIn</a>
-        <a href="https://github.com/aryush-sheelavant" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">GitHub</a>
+        <a href="https://www.linkedin.com/in/aryush-sheelavant" target="_blank" rel="noopener noreferrer" class="btn btn-secondary glass-edge">LinkedIn</a>
+        <a href="https://github.com/aryush-sheelavant" target="_blank" rel="noopener noreferrer" class="btn btn-secondary glass-edge">GitHub</a>
       </div>
     </div>
   </section>
@@ -1452,17 +1511,21 @@
         });
       }
  
-      // --- Reusable cursor-tilt, shared by skill cards and the
-      // contact button so they get the same 3D feel as the project
-      // cards without repeating the math for each one. ---
+      // --- Reusable cursor-tilt + edge-lit vars, shared by skill
+      // cards, goal card, contact pill and secondary buttons so
+      // they share the same 3D feel and glass-edge lighting.
       function cursorTilt(el, maxDeg, liftPx) {
         el.addEventListener("mousemove", function (e) {
           if (!motionAllowed()) return;
           var rect = el.getBoundingClientRect();
-          var px = (e.clientX - rect.left) / rect.width - 0.5;
-          var py = (e.clientY - rect.top) / rect.height - 0.5;
+          var px = (e.clientX - rect.left) / rect.width;
+          var py = (e.clientY - rect.top) / rect.height;
+          el.style.setProperty("--mx", (px * 100) + "%");
+          el.style.setProperty("--my", (py * 100) + "%");
+          var nx = px - 0.5;
+          var ny = py - 0.5;
           el.style.transform =
-            "rotateX(" + (-py * maxDeg) + "deg) rotateY(" + (px * maxDeg) + "deg)" +
+            "rotateX(" + (-ny * maxDeg) + "deg) rotateY(" + (nx * maxDeg) + "deg)" +
             (liftPx ? " translateY(-" + liftPx + "px)" : "");
         });
         el.addEventListener("mouseleave", function () {
@@ -1483,6 +1546,10 @@
  
       var goalCardEl = document.querySelector(".goal-card");
       if (goalCardEl) cursorTilt(goalCardEl, 5, 3);
+
+      document.querySelectorAll(".btn-secondary").forEach(function (btn) {
+        cursorTilt(btn, 4, 2);
+      });
  
       // --- Ambient background parallax: two faint dot-grid layers
       // drift opposite the cursor at different speeds for a subtle
@@ -1996,4 +2063,3 @@
 </body>
 </html>
  
-
